@@ -1,0 +1,12 @@
+-- =====================================================================
+-- BASELINE STATE OVERVIEW (THE "MESSY" DATA)
+-- =====================================================================
+-- Description: 
+-- This file documents the initial state of the Olist dataset before refactoring.
+-- 
+-- Known issues identified in the baseline data:
+-- 1. olist_orders_dataset: order_purchase_timestamp is stored as VARCHAR(50).
+-- 2. Schema structure: no Foreign Key constraints exist between tables 
+--    (e.g., items, payments, reviews are not bound to orders via DB constraints).
+-- 3. Data quality: potential presence of orphan records and unvalidated NULLs.
+-- =====================================================================
