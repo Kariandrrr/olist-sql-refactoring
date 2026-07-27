@@ -9,6 +9,10 @@ The goal of this project is to simulate a real-world data engineering/backend sc
 - **Database Management System:** PostgreSQL
 - **Tools Used:** DBeaver, Git, SQL
 
+**Initial state (Baseline problems):**
+* **Data type issues:** Critical date/timestamp columns (e.g., order purchase times) were originally imported as text strings (`VARCHAR`), preventing proper time-series analysis.
+* **Missing constraints:** The raw dataset lacked Primary Keys (`PK`) and Foreign Keys (`FK`), leaving tables logically disconnected at the database schema level.
+* **Data integrity:** Absence of strict constraints allowed null values and orphan records in key relations.
 ---
 
 ## 🏗️ Database architecture evolution
