@@ -7,25 +7,32 @@
 
 
 --1. PK in olist_orders_dataset
-alter table olist_orders_dataset 
-add constraint pk_orders primary key (order_id)
+ALTER TABLE olist_orders_dataset 
+ADD CONSTRAINT pk_orders PRIMARY KEY (order_id)
+
 
 --2. link items to orders 
-alter table olist_order_items_dataset 
-add constraint fk_items_order foreign key (order_id)
-references olist_orders_dataset(order_id)
-on delete cascade;
+ALTER TABLE olist_order_items_dataset 
+ADD CONSTRAINT fk_items_order FOREIGN KEY (order_id)
+REFERENCES olist_orders_dataset(order_id)
+ON
+DELETE
+	CASCADE;
+
 
 --3. link payment to orders 
-alter table olist_order_payments_dataset 
-add constraint fk_paymenent_order foreign key (order_id)
-references olist_orders_dataset(order_id)
-on delete cascade;
+ALTER TABLE olist_order_payments_dataset 
+ADD CONSTRAINT fk_paymenent_order FOREIGN KEY (order_id)
+REFERENCES olist_orders_dataset(order_id)
+ON
+DELETE
+	CASCADE;
+
 
 --4. link reviews to orders 
-alter table olist_order_reviews_dataset  
-add constraint fk_review_order foreign key (order_id)
-references olist_orders_dataset(order_id)
-on delete cascade;
-
-
+ALTER TABLE olist_order_reviews_dataset  
+ADD CONSTRAINT fk_review_order FOREIGN KEY (order_id)
+REFERENCES olist_orders_dataset(order_id)
+ON
+DELETE
+	CASCADE;

@@ -1,71 +1,92 @@
 --step 3: ADD PRIMARY KEYS AND FOREIGN KEYS FOR REMAINING TABLES
 
+
 -- 1. Add simple primary keys for reference/dimension tables
-alter table olist_products_dataset  add constraint pk_products primary key (product_id);
-alter table olist_sellers_dataset  add constraint pk_seller primary key (seller_id);
+ALTER TABLE olist_products_dataset ADD CONSTRAINT pk_products PRIMARY KEY (product_id);
+
+ALTER TABLE olist_sellers_dataset ADD CONSTRAINT pk_seller PRIMARY KEY (seller_id);
 
 
 -- CLEAN UP DUPLICATES AND ADD PK 
 -- 2. for customers
 -- Error [23505] occurs due to duplicate customer_id entries in raw data
-delete from olist_customers_dataset a
-using olist_customers_dataset b
-where a.ctid < b.ctid 
-	and a.customer_id = b.customer_id;
+DELETE
+FROM
+	olist_customers_dataset a
+		USING olist_customers_dataset b
+WHERE
+	a.ctid < b.ctid
+	AND a.customer_id = b.customer_id;
 
-alter table olist_customers_dataset add constraint pk_customers primary key (customer_id); 
+ALTER TABLE olist_customers_dataset ADD CONSTRAINT pk_customers PRIMARY KEY (customer_id);
 
-	
+
 -- 3. Link order items to products and sellers (FK)
-alter table olist_order_items_dataset 
-add constraint fk_items_product foreign key (product_id)
-references olist_products_dataset(product_id)
-on delete cascade;
+ALTER TABLE olist_order_items_dataset 
+ADD CONSTRAINT fk_items_product FOREIGN KEY (product_id)
+REFERENCES olist_products_dataset(product_id)
+ON
+DELETE
+	CASCADE;
 
-alter table olist_order_items_dataset
-add constraint fk_items_seller foreign key (seller_id) 
-references olist_sellers_dataset(seller_id)
-on delete cascade;
+ALTER TABLE olist_order_items_dataset
+ADD CONSTRAINT fk_items_seller FOREIGN KEY (seller_id) 
+REFERENCES olist_sellers_dataset(seller_id)
+ON
+DELETE
+	CASCADE;
 
 
 -- 4. for order items (order_id + order_item_id)
-delete from olist_order_items_dataset a
-using olist_order_items_dataset b
-where a.ctid < b.ctid 
-  and a.order_id = b.order_id 
-  and a.order_item_id = b.order_item_id;
+DELETE
+FROM
+	olist_order_items_dataset a
+		USING olist_order_items_dataset b
+WHERE
+	a.ctid < b.ctid
+	AND a.order_id = b.order_id
+	AND a.order_item_id = b.order_item_id;
 
-alter table olist_order_items_dataset 
-add constraint pk_order_items primary key (order_id, order_item_id);
+ALTER TABLE olist_order_items_dataset 
+ADD CONSTRAINT pk_order_items PRIMARY KEY (order_id, order_item_id);
 
 
 -- 5. for order payments (order_id + payment_sequential)
-delete from olist_order_payments_dataset a
-using olist_order_payments_dataset b
-where a.ctid < b.ctid 
-  and a.order_id = b.order_id 
-  and a.payment_sequential = b.payment_sequential;
+DELETE
+FROM
+	olist_order_payments_dataset a
+		USING olist_order_payments_dataset b
+WHERE
+	a.ctid < b.ctid
+	AND a.order_id = b.order_id
+	AND a.payment_sequential = b.payment_sequential;
 
-alter table  olist_order_payments_dataset 
-add constraint pk_order_payments primary key (order_id, payment_sequential);
+ALTER TABLE olist_order_payments_dataset 
+ADD CONSTRAINT pk_order_payments PRIMARY KEY (order_id, payment_sequential);
 
 
 -- 6. for reviews (review_id)
-delete from olist_order_reviews_dataset a
-using olist_order_reviews_dataset b
-where a.ctid < b.ctid 
-  and a.review_id = b.review_id;
+DELETE
+FROM
+	olist_order_reviews_dataset a
+		USING olist_order_reviews_dataset b
+WHERE
+	a.ctid < b.ctid
+	AND a.review_id = b.review_id;
 
-alter table olist_order_reviews_dataset 
-add constraint pk_order_reviews primary key (review_id);
+ALTER TABLE olist_order_reviews_dataset 
+ADD CONSTRAINT pk_order_reviews PRIMARY KEY (review_id);
 
 
 -- 7. for product category translations
-delete from  product_category_name_translation a
-using product_category_name_translation b
-where a.ctid < b.ctid 
-  and a.product_category_name = b.product_category_name;
+DELETE
+FROM
+	product_category_name_translation a
+		USING product_category_name_translation b
+WHERE
+	a.ctid < b.ctid
+	AND a.product_category_name = b.product_category_name;
 
-alter table product_category_name_translation 
-add constraint pk_category_translation primary key (product_category_name);
+ALTER TABLE product_category_name_translation 
+ADD CONSTRAINT pk_category_translation PRIMARY KEY (product_category_name);
 
