@@ -29,7 +29,7 @@ The goal of this refactoring process was to:
 
 The normalized relational structure of the database:
 
-![ER Diagram](docs/e-commerce-public.png) 
+![ER Diagram](docs/e-commerce%20-%20public.png) 
 ---
 
 ## ⚙️ Refactoring Steps & Implementation
