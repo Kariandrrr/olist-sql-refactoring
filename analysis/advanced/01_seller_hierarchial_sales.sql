@@ -1,27 +1,27 @@
 /*
 ===============================================================================
-	Hierarchical Seller Sales Analysis
+		Hierarchical Seller Sales Analysis
 ===============================================================================
 1. Business objective:
-   Calculate seller revenue, total unique orders, average order value (AOV),
+   Calculate seller revenue, total unique orders, average order value, 
    and price standard deviation broken down by seller region (state and city).
    Includes sub-totals per state and a grand total across the entire company
    for comprehensive hierarchical financial reporting.
 
-2. Key Metrics / Output Columns:
-   - seller_state: State code of the seller location (NULL for grand total)
-   - seller_city: City name of the seller location (NULL for state sub-totals)
-   - total_revenue: Total sales price per group/sub-total
-   - unique_orders_count: Count of unique orders
-   - avg_order_value: Average order value (Revenue / Unique Orders)
-   - price_stddev: Standard deviation of item prices within the group
+2. Key metrics:
+   - seller_state: state code of the seller location (NULL for grand total)
+   - seller_city: city name of the seller location (NULL for state sub-totals)
+   - total_revenue: total sales price per group/sub-total
+   - unique_orders_count: count of unique orders
+   - avg_order_value: average order value (revenue / unique orders)
+   - price_stddev: standard deviation of item prices within the group
 
-3. Technical Highlights:
-   - Aggregations & Rollups: Uses GROUP BY ROLLUP(seller_state, seller_city) 
+3. Technical highlights:
+   - Aggregations & rollups: uses GROUP BY ROLLUP(seller_state, seller_city) 
      to generate hierarchical aggregations (City -> State -> Grand Total).
-   - Post-Aggregation Filtering: Uses HAVING clause to retain high-volume 
+   - Post-aggregation filtering: uses HAVING clause to retain high-volume 
      groups with total revenue exceeding 50,000.
-   - Statistical Functions: Calculates standard deviation using STDDEV().
+   - Statistical functions: calculates standard deviation using STDDEV().
 ===============================================================================
 */
 
