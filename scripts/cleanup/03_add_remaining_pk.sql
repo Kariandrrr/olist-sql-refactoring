@@ -104,7 +104,38 @@ DELETE
 	CASCADE;
 
 
--- 9. for products and their trunslations 
+-- 9. for products and their trunslations (fix the problem with values that were not in translator)
+UPDATE
+	olist_products_dataset
+SET
+	product_category_name = NULL
+WHERE
+	product_category_name = ''
+	OR TRIM(product_category_name) = '';
+
+SELECT
+	DISTINCT p.product_category_name
+FROM
+	olist_products_dataset p
+LEFT JOIN product_category_name_translation t 
+       ON
+	p.product_category_name = t.product_category_name
+WHERE
+	p.product_category_name IS NOT NULL
+	AND t.product_category_name IS NULL;
+
+INSERT
+	INTO
+	product_category_name_translation (product_category_name,
+	product_category_name_english)
+VALUES 
+  ('pc_gamer',
+'pc_gamer'),
+  ('portateis_cozinha_e_preparadores_de_alimentos',
+'portable_kitchen_and_food_preparers')
+ON
+CONFLICT (product_category_name) DO NOTHING;
+
 ALTER TABLE olist_products_dataset
   ADD CONSTRAINT fk_products_category_translation 
   FOREIGN KEY (product_category_name) 
