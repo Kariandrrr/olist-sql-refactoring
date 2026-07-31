@@ -90,3 +90,16 @@ WHERE
 ALTER TABLE product_category_name_translation 
 ADD CONSTRAINT pk_category_translation PRIMARY KEY (product_category_name);
 
+
+-- 8. for customers and orders 
+ALTER TABLE olist_orders_dataset
+  ADD CONSTRAINT fk_orders_customers 
+  FOREIGN KEY (customer_id) 
+  REFERENCES olist_customers_dataset (customer_id)
+  ON
+DELETE
+	RESTRICT   
+  ON
+	UPDATE
+	CASCADE;
+
