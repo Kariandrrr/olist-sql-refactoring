@@ -103,3 +103,16 @@ DELETE
 	UPDATE
 	CASCADE;
 
+
+-- 9. for products and their trunslations 
+ALTER TABLE olist_products_dataset
+  ADD CONSTRAINT fk_products_category_translation 
+  FOREIGN KEY (product_category_name) 
+  REFERENCES product_category_name_translation (product_category_name)
+  ON
+DELETE
+	SET
+	NULL
+  ON
+	UPDATE
+	CASCADE;
