@@ -59,7 +59,7 @@ olist-sql-refactoring/
 ├── analysis/                      # Analytical and audit queries
 │   ├── audit/                     # Data quality checks, anomaly detection, and orphan record search
 │   ├── reports/                   # Business intelligence, aggregations, and performance reports
-│   └── advanced/                  # Complex queries using window functions and CTEs
+│   └── queries/                   # Complex queries using window functions and CTEs
 │
 └── docs/                          # ER diagrams and documentation assets
 ```
