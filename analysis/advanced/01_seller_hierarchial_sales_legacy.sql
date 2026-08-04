@@ -2,6 +2,9 @@
 ===============================================================================
 		Hierarchical Seller Sales Analysis
 ===============================================================================
+
+-- STATUS: LEGACY / UNOPTIMIZED
+
 1. Business objective:
    Calculate seller revenue, total unique orders, average order value, 
    and price standard deviation broken down by seller region (state and city).
