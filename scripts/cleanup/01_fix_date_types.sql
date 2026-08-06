@@ -8,13 +8,15 @@
 
 -- 1. order_purchase_timestamp varchar -> timestapm 
 
-ALTER TABLE olist_orders_dataset 
-ALTER COLUMN order_purchase_timestamp TYPE timestamp
-	USING order_purchase_timestamp::timestamp;
+ALTER TABLE olist_orders_dataset
+ALTER
+COLUMN order_purchase_timestamp TYPE TIMESTAMP
+	USING order_purchase_timestamp::TIMESTAMP;
 
 
 -- 2. order_approved_at vaarchar -> timestamp
 
-ALTER TABLE olist_orders_dataset 
-ALTER COLUMN order_approved_at TYPE timestamp
-	USING order_approved_at::timestamp;
+ALTER TABLE olist_orders_dataset
+ALTER
+COLUMN order_approved_at TYPE TIMESTAMP
+	USING order_approved_at::TIMESTAMP;
