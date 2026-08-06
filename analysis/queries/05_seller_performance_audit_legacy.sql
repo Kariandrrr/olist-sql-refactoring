@@ -22,46 +22,30 @@
 */
 
 
+WITH seller_metrics AS (SELECT osd.seller_id,
+                               COUNT(DISTINCT ooid.order_id) AS total_orders_count,
+                               COALESCE(SUM(ooid.price), 0)  AS total_revenue
+                        FROM olist_sellers_dataset osd
+                                 JOIN olist_order_items_dataset ooid
+                                      ON
+                                          ooid.seller_id = osd.seller_id
+                        GROUP BY osd.seller_id
+                        HAVING COALESCE(SUM(ooid.price), 0) > 1000)
 
-WITH seller_metrics AS (
-SELECT
-	osd.seller_id,
-	COUNT(DISTINCT ooid.order_id) AS total_orders_count,
-	COALESCE(SUM(ooid.price), 0) AS total_revenue
-FROM
-	olist_sellers_dataset osd
-JOIN olist_order_items_dataset ooid 
-        ON
-	ooid.seller_id = osd.seller_id
-GROUP BY
-	osd.seller_id
-HAVING
-	COALESCE(SUM(ooid.price), 0) > 1000
-)
-
-SELECT
-	sm.seller_id,
-	sm.total_orders_count,
-	ROUND(sm.total_revenue::NUMERIC, 2) AS total_revenue, 
-	COALESCE(top_category.product_category_name , 'Uncategorised') AS top_category_name
-FROM
-	seller_metrics sm
-LEFT JOIN LATERAL (
-	SELECT
-		opd_sub.product_category_name
-	FROM
-		olist_order_items_dataset ooid_sub
-	LEFT JOIN olist_products_dataset opd_sub ON
-		ooid_sub.product_id = opd_sub.product_id
-	WHERE
-		ooid_sub.seller_id = sm.seller_id
-	GROUP BY
-		opd_sub.product_category_name
-	ORDER BY
-		sum(ooid_sub.price) DESC
-	LIMIT 1) 
-       	top_category ON
-	TRUE
-ORDER BY
-	sm.total_revenue DESC;
+SELECT sm.seller_id,
+       sm.total_orders_count,
+       ROUND(sm.total_revenue::NUMERIC, 2)                           AS total_revenue,
+       COALESCE(top_category.product_category_name, 'Uncategorised') AS top_category_name
+FROM seller_metrics sm
+         LEFT JOIN LATERAL (
+    SELECT opd_sub.product_category_name
+    FROM olist_order_items_dataset ooid_sub
+             LEFT JOIN olist_products_dataset opd_sub ON
+        ooid_sub.product_id = opd_sub.product_id
+    WHERE ooid_sub.seller_id = sm.seller_id
+    GROUP BY opd_sub.product_category_name
+    ORDER BY SUM(ooid_sub.price) DESC
+    LIMIT 1) top_category ON
+    TRUE
+ORDER BY sm.total_revenue DESC;
 

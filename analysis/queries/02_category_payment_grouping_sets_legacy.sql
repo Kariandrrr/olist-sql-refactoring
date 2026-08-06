@@ -32,36 +32,31 @@
 */
 
 
-SELECT
-	opd.product_category_name,
-	oopd.payment_type,
-	GROUPING(opd.product_category_name) AS is_cat_aggaregated,
-	GROUPING(oopd.payment_type) AS is_pay_aggregated,
-	sum(oopd.payment_value) AS total,
-	count(DISTINCT ooid.order_id) AS uq_orders_count,
-	round
-		(PERCENTILE_CONT(0.5) WITHIN GROUP (
-	ORDER BY oopd.payment_value)::NUMERIC,
-	2
-	) AS median_payment
-FROM
-	olist_order_items_dataset ooid
-JOIN olist_order_payments_dataset oopd 
- 		ON
-	ooid.order_id = oopd.order_id
-JOIN olist_products_dataset opd 
- 		ON
-	ooid.product_id = opd.product_id
+SELECT opd.product_category_name,
+       oopd.payment_type,
+       GROUPING(opd.product_category_name) AS is_cat_aggaregated,
+       GROUPING(oopd.payment_type)         AS is_pay_aggregated,
+       SUM(oopd.payment_value)             AS total,
+       COUNT(DISTINCT ooid.order_id)       AS uq_orders_count,
+       ROUND
+       (PERCENTILE_CONT(0.5) WITHIN GROUP (
+           ORDER BY oopd.payment_value)::NUMERIC,
+        2
+       )                                   AS median_payment
+FROM olist_order_items_dataset ooid
+         JOIN olist_order_payments_dataset oopd
+              ON
+                  ooid.order_id = oopd.order_id
+         JOIN olist_products_dataset opd
+              ON
+                  ooid.product_id = opd.product_id
 GROUP BY
-	GROUPING SETS (
-	(opd.product_category_name,
-	oopd.payment_type ),
-	(opd.product_category_name),
-	(oopd.payment_type)
-)
-HAVING 
-	sum(oopd.payment_value) > 100000
-	AND count(DISTINCT ooid.order_id) > 500
-ORDER BY 
-	is_cat_aggaregated ASC, 
-	count(DISTINCT ooid.order_id) DESC;
+    GROUPING SETS ( (opd.product_category_name,
+                     oopd.payment_type),
+                    (opd.product_category_name),
+                    (oopd.payment_type)
+    )
+HAVING SUM(oopd.payment_value) > 100000
+   AND COUNT(DISTINCT ooid.order_id) > 500
+ORDER BY is_cat_aggaregated,
+         COUNT(DISTINCT ooid.order_id) DESC;

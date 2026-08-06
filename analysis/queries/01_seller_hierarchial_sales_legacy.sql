@@ -29,26 +29,22 @@
 */
 
 
-SELECT 
-	osd.seller_city, 
-	osd.seller_state, 
-	sum(ooid.price) AS total, 
-	count(DISTINCT ooid.order_id) AS uq_orders_count, 
-	round((sum(ooid.price) / count(DISTINCT ooid.order_id))::numeric, 2) AS avg_order_value, 
-	round(stddev(ooid.price)::numeric, 2) AS price_sttdev
-FROM
-	olist_sellers_dataset osd
-JOIN olist_order_items_dataset ooid 
-		ON
-	osd.seller_id = ooid.seller_id
-GROUP BY 
-	ROLLUP(osd.seller_state, osd.seller_city)
-HAVING 
-	sum(ooid.price) > 50000
-ORDER BY 
-	osd.seller_state ASC NULLS FIRST, 
-	osd.seller_city ASC NULLS FIRST,
-	total DESC;
+SELECT osd.seller_city,
+       osd.seller_state,
+       SUM(ooid.price)                                                       AS total,
+       COUNT(DISTINCT ooid.order_id)                                         AS uq_orders_count,
+       round((SUM(ooid.price) / COUNT(DISTINCT ooid.order_id)):: NUMERIC, 2) AS avg_order_value,
+       round(stddev(ooid.price)::NUMERIC, 2)                                 AS price_sttdev
+FROM olist_sellers_dataset osd
+         JOIN olist_order_items_dataset ooid
+              ON
+                  osd.seller_id = ooid.seller_id
+GROUP BY
+    ROLLUP (osd.seller_state, osd.seller_city)
+HAVING SUM(ooid.price) > 50000
+ORDER BY osd.seller_state ASC NULLS FIRST,
+         osd.seller_city ASC NULLS FIRST,
+         total DESC;
  
  
  

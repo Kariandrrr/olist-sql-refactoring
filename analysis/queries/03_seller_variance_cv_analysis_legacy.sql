@@ -29,42 +29,35 @@
 */
 
 
-SELECT
-	osd.seller_city,
-	osd.seller_state ,
-	GROUPING (osd.seller_city) AS is_state_summary,
-	count(DISTINCT osd.seller_id) AS sellers_count,
-	count(DISTINCT ooid.order_id) AS orders_count,
-	sum(ooid.price) AS total_revenue,
-	variance(ooid.price),
-	round
-		((stddev(ooid.price) / avg(ooid.price) * 100)::NUMERIC,
-	2
-	) AS cv
-FROM
-	olist_sellers_dataset osd
-JOIN olist_order_items_dataset ooid
-	 	ON
-	osd.seller_id = ooid.seller_id
-JOIN olist_order_payments_dataset oopd 
-	 	ON
-	ooid.order_id = oopd.order_id
+SELECT osd.seller_city,
+       osd.seller_state,
+       GROUPING(osd.seller_city)     AS is_state_summary,
+       COUNT(DISTINCT osd.seller_id) AS sellers_count,
+       COUNT(DISTINCT ooid.order_id) AS orders_count,
+       SUM(ooid.price)               AS total_revenue,
+       variance(ooid.price),
+       round
+       ((stddev(ooid.price) / AVG(ooid.price) * 100):: NUMERIC,
+        2
+       )                             AS cv
+FROM olist_sellers_dataset osd
+         JOIN olist_order_items_dataset ooid
+              ON
+                  osd.seller_id = ooid.seller_id
+         JOIN olist_order_payments_dataset oopd
+              ON
+                  ooid.order_id = oopd.order_id
 GROUP BY
-	GROUPING SETS (
-		(osd.seller_state,
-	osd.seller_city),
-		(osd.seller_state)
-	)
-HAVING 
-	sum(ooid.price) > 30000
-	AND 
-	count(DISTINCT ooid.order_id) > 100
-	AND 
-	(stddev(ooid.price) / avg(ooid.price) * 100) > 50
-ORDER BY 
-	osd.seller_state ASC, 
-	is_state_summary DESC, 
-	total_revenue DESC;
+    GROUPING SETS ( (osd.seller_state,
+                     osd.seller_city),
+                    (osd.seller_state)
+    )
+HAVING SUM(ooid.price) > 30000
+   AND COUNT(DISTINCT ooid.order_id) > 100
+   AND (stddev(ooid.price) / AVG(ooid.price) * 100) > 50
+ORDER BY osd.seller_state ASC,
+         is_state_summary DESC,
+         total_revenue DESC;
  
  
  
