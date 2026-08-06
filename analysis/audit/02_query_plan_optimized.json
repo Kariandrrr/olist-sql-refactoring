@@ -1,7 +1,5 @@
 [
   {
-    "QUERY PLAN": [
-  {
     "Plan": {
       "Node Type": "Sort",
       "Parallel Aware": false,
@@ -15,7 +13,10 @@
       "Actual Rows": 49.00,
       "Actual Loops": 1,
       "Disabled": false,
-      "Sort Key": ["(0)", "stats.unique_orders DESC"],
+      "Sort Key": [
+        "(0)",
+        "stats.unique_orders DESC"
+      ],
       "Sort Method": "quicksort",
       "Sort Space Used": 27,
       "Sort Space Type": "Memory",
@@ -47,7 +48,11 @@
           "Actual Rows": 102020.00,
           "Actual Loops": 1,
           "Disabled": false,
-          "Group Key": ["oopd.payment_type", "opd.product_category_name", "ooid.order_id"],
+          "Group Key": [
+            "oopd.payment_type",
+            "opd.product_category_name",
+            "ooid.order_id"
+          ],
           "Planned Partitions": 0,
           "HashAgg Batches": 1,
           "Peak Memory Usage": 14361,
@@ -287,7 +292,10 @@
           "Actual Rows": 30.00,
           "Actual Loops": 1,
           "Disabled": false,
-          "Group Key": ["order_level_2.payment_type", "order_level_2.product_category_name"],
+          "Group Key": [
+            "order_level_2.payment_type",
+            "order_level_2.product_category_name"
+          ],
           "Filter": "((sum(order_level_2.payment_value) > '100000'::double precision) AND (count(DISTINCT order_level_2.order_id) > 500))",
           "Rows Removed by Filter": 315,
           "Shared Hit Blocks": 3288,
@@ -315,7 +323,11 @@
               "Actual Rows": 102020.00,
               "Actual Loops": 1,
               "Disabled": false,
-              "Sort Key": ["order_level_2.payment_type", "order_level_2.product_category_name", "order_level_2.order_id"],
+              "Sort Key": [
+                "order_level_2.payment_type",
+                "order_level_2.product_category_name",
+                "order_level_2.order_id"
+              ],
               "Sort Method": "quicksort",
               "Sort Space Used": 11099,
               "Sort Space Type": "Memory",
@@ -460,7 +472,9 @@
                   "Actual Rows": 17.00,
                   "Actual Loops": 1,
                   "Disabled": false,
-                  "Group Key": ["order_level.product_category_name"],
+                  "Group Key": [
+                    "order_level.product_category_name"
+                  ],
                   "Filter": "((sum(order_level.payment_value) > '100000'::double precision) AND (count(DISTINCT order_level.order_id) > 500))",
                   "Rows Removed by Filter": 0,
                   "Shared Hit Blocks": 0,
@@ -488,7 +502,10 @@
                       "Actual Rows": 58449.00,
                       "Actual Loops": 1,
                       "Disabled": false,
-                      "Sort Key": ["order_level.product_category_name", "order_level.order_id"],
+                      "Sort Key": [
+                        "order_level.product_category_name",
+                        "order_level.order_id"
+                      ],
                       "Sort Method": "quicksort",
                       "Sort Space Used": 5602,
                       "Sort Space Type": "Memory",
@@ -606,7 +623,10 @@
                                   "Actual Rows": 30.00,
                                   "Actual Loops": 1,
                                   "Disabled": false,
-                                  "Group Key": ["(stats_1.product_category_name)::text", "(stats_1.payment_type)::text"],
+                                  "Group Key": [
+                                    "(stats_1.product_category_name)::text",
+                                    "(stats_1.payment_type)::text"
+                                  ],
                                   "Planned Partitions": 0,
                                   "HashAgg Batches": 1,
                                   "Peak Memory Usage": 40,
@@ -705,7 +725,9 @@
                   "Actual Rows": 2.00,
                   "Actual Loops": 1,
                   "Disabled": false,
-                  "Group Key": ["order_level_1.payment_type"],
+                  "Group Key": [
+                    "order_level_1.payment_type"
+                  ],
                   "Filter": "((sum(order_level_1.payment_value) > '100000'::double precision) AND (count(DISTINCT order_level_1.order_id) > 500))",
                   "Rows Removed by Filter": 0,
                   "Shared Hit Blocks": 0,
@@ -733,7 +755,10 @@
                       "Actual Rows": 58449.00,
                       "Actual Loops": 1,
                       "Disabled": false,
-                      "Sort Key": ["order_level_1.payment_type", "order_level_1.order_id"],
+                      "Sort Key": [
+                        "order_level_1.payment_type",
+                        "order_level_1.order_id"
+                      ],
                       "Sort Method": "quicksort",
                       "Sort Space Used": 5373,
                       "Sort Space Type": "Memory",
@@ -851,7 +876,10 @@
                                   "Actual Rows": 30.00,
                                   "Actual Loops": 1,
                                   "Disabled": false,
-                                  "Group Key": ["(stats_2.product_category_name)::text", "(stats_2.payment_type)::text"],
+                                  "Group Key": [
+                                    "(stats_2.product_category_name)::text",
+                                    "(stats_2.payment_type)::text"
+                                  ],
                                   "Planned Partitions": 0,
                                   "HashAgg Batches": 1,
                                   "Peak Memory Usage": 40,
@@ -928,7 +956,5 @@
     "Triggers": [
     ],
     "Execution Time": 1144.998
-  }
-]
   }
 ]
