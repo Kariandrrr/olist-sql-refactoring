@@ -3,7 +3,7 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18%2B-blue?style=flat&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![SQL Refactoring](https://img.shields.io/badge/Data-Engineering-orange?style=flat)](https://github.com/)
 
-A data engineering project focused on transforming raw, unstructured e-commerce CSV dumps into a clean, constrained, and fully normalized relational database using **PostgreSQL** and **DBeaver**.
+A data engineering project focused on transforming raw, unstructured e-commerce CSV dumps into a clean, constrained, and fully normalized relational database using **PostgreSQL**, **DataGrip** and **DBeaver**.
 
 ---
 
@@ -18,7 +18,7 @@ The goal of this refactoring process was to:
 
 - **Source Dataset:** [Kaggle - Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
 - **Database Management System:** PostgreSQL
-- **Tools Used:** DBeaver, Git, SQL
+- **Tools Used:** DBeaver, DataGrip, Git, SQL
 
 **Initial state (Baseline problems):**
 * **Data type issues:** critical date/timestamp columns (e.g., order purchase times) were originally imported as text strings (`varchar`), preventing proper time-series analysis.
