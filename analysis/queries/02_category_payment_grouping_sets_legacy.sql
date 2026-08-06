@@ -2,6 +2,10 @@
 ===============================================================================
 		Multi-Dimensional Payment & Category Analysis
 ===============================================================================
+
+-- STATUS: LEGACY / UNOPTIMIZED
+
+
 1. Business objective:
    Analyze total payment volume, unique order counts, and median payment value
    across three independent dimensions:
