@@ -50,8 +50,6 @@ CREATE INDEX IF NOT EXISTS idx_olist_order_items_seller_id
 ---
 ### 5. Implementation comparison
 
-### 5. Implementation Comparison
-
 | Step                     | Legacy execution flow                               | Optimized execution flow                 | Performance impact                           |
 |:-------------------------|:----------------------------------------------------|:------------------------------------------------|:---------------------------------------------|
 | **1. Preparation**       | Default session settings (`work_mem` = 4MB)         | `SET work_mem = '16MB'`                         | Prepares enough RAM for in-memory operations |
