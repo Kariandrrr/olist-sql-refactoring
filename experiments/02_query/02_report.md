@@ -13,7 +13,7 @@
 
 ---
 
-### 1. Executive Summary
+### 1. Executive summary
 
 **Problem:**
 the legacy query using `GROUP BY GROUPING SETS` + `COUNT(DISTINCT)` + `PERCENTILE_CONT()` executed in **763 ms**. While functionally correct, it used a Sorted Aggregate strategy and applied the `HAVING` filter only after computing all grouping levels, leading to unnecessary calculations on discarded groups.
@@ -38,7 +38,7 @@ all `UNION ALL` approaches have been archived. Further optimization will continu
 ### 2. Benchmark
 
 
-| Metric                      | Legacy (GROUPING SETS) | Experiment v1 (UNION ALL + filter) | Experiment v2 (Independent UNION ALL) | Effect             |
+| Metric                      | Legacy (GROUPING SETS) | Experiment v1 (UNION ALL + filter) | Experiment v2 (independent UNION ALL) | Effect              |
 | --------------------------- | ---------------------- | ---------------------------------- | ------------------------------------- | ------------------- |
 | Execution time              | 763.3 ms               | 1145.0 ms                          | 1412.7 ms                             | +50% / +85%         |
 | Planning time               | 1.20 ms                | 5.71 ms                            | 0.95 ms                               | Mixed               |
@@ -74,7 +74,7 @@ The original query could calculate `PERCENTILE_CONT()` directly. Both experiment
 
 ---
 
-### 4. Changes Attempted
+### 4. Changes attempted
 
 **Common changes in both experiments:**
 
