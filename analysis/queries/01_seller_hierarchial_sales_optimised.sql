@@ -7,7 +7,7 @@ OPTIMIZATIONS APPLIED:
 2. Indexing: ensured seller_id index exists for fast JOIN performance
 3. CTE pre-aggregation: deduplicated items to (seller_id, order_id) level,
    replacing costly COUNT(DISTINCT) with a simple COUNT()
--- ============================================================================
+============================================================================
 */
 
 -- allocate memory for in-RAM sorts and hash aggregations

@@ -28,7 +28,7 @@ NOTE:
   reconstructed from pre-aggregated payment sums.
 ============================================================================
 */
-EXPLAIN (ANALYSE , BUFFERS , FORMAT JSON)
+
 WITH order_level AS (SELECT oopd.payment_type,
                             opd.product_category_name,
                             ooid.order_id,
