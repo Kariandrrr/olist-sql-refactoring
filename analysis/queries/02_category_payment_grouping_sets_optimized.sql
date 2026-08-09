@@ -1,17 +1,17 @@
 EXPLAIN (ANALYSE, BUFFERS , FORMAT JSON)
 
 
-WITH base_data AS MATERIALIZED (SELECT oopd.payment_type,
-                                       ooid.order_id,
-                                       opd.product_category_name,
-                                       oopd.payment_value
-                                FROM olist_order_items_dataset ooid
-                                         JOIN olist_order_payments_dataset oopd
-                                              ON
-                                                  ooid.order_id = oopd.order_id
-                                         JOIN olist_products_dataset opd
-                                              ON
-                                                  ooid.product_id = opd.product_id),
+WITH base_data AS (SELECT oopd.payment_type,
+                          ooid.order_id,
+                          opd.product_category_name,
+                          oopd.payment_value
+                   FROM olist_order_items_dataset ooid
+                            JOIN olist_order_payments_dataset oopd
+                                 ON
+                                     ooid.order_id = oopd.order_id
+                            JOIN olist_products_dataset opd
+                                 ON
+                                     ooid.product_id = opd.product_id),
      order_level AS MATERIALIZED (SELECT order_id,
                                          product_category_name,
                                          payment_type,
