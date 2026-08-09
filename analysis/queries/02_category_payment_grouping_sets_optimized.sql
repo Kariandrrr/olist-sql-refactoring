@@ -1,5 +1,19 @@
-EXPLAIN (ANALYSE, BUFFERS , FORMAT JSON)
+/*
+============================================================================
+		Multi-Dimensional Payment & Category Analysis
 
+OPTIMIZATIONS APPLIED:
+1. Session memory: raised work_mem to 64MB to ensure in-memory sorting and aggregation
+2. CTE pre-aggregation: pre-aggregated data to (order_id, product_category_name, payment_type)
+   level, reducing row volume entering the GROUPING SETS operation
+3. Conditional Median: restricted PERCENTILE_CONT evaluation to detailed rows only
+   via CASE WHEN GROUPING() = 0, eliminating overhead on subtotal levels
+============================================================================
+*/
+
+
+SET enable_sort = off;
+SET work_mem = '64MB';
 
 WITH base_data AS (SELECT oopd.payment_type,
                           ooid.order_id,
