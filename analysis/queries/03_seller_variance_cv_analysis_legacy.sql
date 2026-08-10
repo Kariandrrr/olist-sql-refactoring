@@ -28,16 +28,15 @@
 ===============================================================================
 */
 
-
 SELECT osd.seller_city,
        osd.seller_state,
        GROUPING(osd.seller_city)     AS is_state_summary,
        COUNT(DISTINCT osd.seller_id) AS sellers_count,
        COUNT(DISTINCT ooid.order_id) AS orders_count,
        SUM(ooid.price)               AS total_revenue,
-       variance(ooid.price),
-       round
-       ((stddev(ooid.price) / AVG(ooid.price) * 100):: NUMERIC,
+       VARIANCE(ooid.price),
+       ROUND
+       ((STDDEV(ooid.price) / AVG(ooid.price) * 100):: NUMERIC,
         2
        )                             AS cv
 FROM olist_sellers_dataset osd
@@ -54,8 +53,8 @@ GROUP BY
     )
 HAVING SUM(ooid.price) > 30000
    AND COUNT(DISTINCT ooid.order_id) > 100
-   AND (stddev(ooid.price) / AVG(ooid.price) * 100) > 50
-ORDER BY osd.seller_state ASC,
+   AND (STDDEV(ooid.price) / AVG(ooid.price) * 100) > 50
+ORDER BY osd.seller_state,
          is_state_summary DESC,
          total_revenue DESC;
  
