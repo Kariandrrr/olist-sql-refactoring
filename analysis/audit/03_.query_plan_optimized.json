@@ -1,0 +1,324 @@
+[
+  {
+    "Plan": {
+      "Node Type": "Incremental Sort",
+      "Parallel Aware": false,
+      "Async Capable": false,
+      "Startup Cost": 16766.63,
+      "Total Cost": 16773.28,
+      "Plan Rows": 111,
+      "Plan Width": 94,
+      "Actual Startup Time": 149.375,
+      "Actual Total Time": 149.385,
+      "Actual Rows": 43.00,
+      "Actual Loops": 1,
+      "Disabled": false,
+      "Sort Key": [
+        "osd.seller_state",
+        "(GROUPING(osd.seller_city)) DESC",
+        "(sum((sum(olist_order_items_dataset.price)))) DESC"
+      ],
+      "Presorted Key": [
+        "osd.seller_state"
+      ],
+      "Full-sort Groups": {
+        "Group Count": 2,
+        "Sort Methods Used": [
+          "quicksort"
+        ],
+        "Sort Space Memory": {
+          "Average Sort Space Used": 27,
+          "Peak Sort Space Used": 27
+        }
+      },
+      "Shared Hit Blocks": 1358,
+      "Shared Read Blocks": 3282,
+      "Shared Dirtied Blocks": 0,
+      "Shared Written Blocks": 0,
+      "Local Hit Blocks": 0,
+      "Local Read Blocks": 0,
+      "Local Dirtied Blocks": 0,
+      "Local Written Blocks": 0,
+      "Temp Read Blocks": 0,
+      "Temp Written Blocks": 0,
+      "Plans": [
+        {
+          "Node Type": "Aggregate",
+          "Strategy": "Sorted",
+          "Partial Mode": "Simple",
+          "Parent Relationship": "Outer",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Startup Cost": 16766.42,
+          "Total Cost": 16770.18,
+          "Plan Rows": 111,
+          "Plan Width": 94,
+          "Actual Startup Time": 149.309,
+          "Actual Total Time": 149.361,
+          "Actual Rows": 43.00,
+          "Actual Loops": 1,
+          "Disabled": false,
+          "Grouping Sets": [
+            {
+              "Group Keys": [
+                [
+                  "osd.seller_state",
+                  "osd.seller_city"
+                ],
+                [
+                  "osd.seller_state"
+                ]
+              ]
+            }
+          ],
+          "Shared Hit Blocks": 1358,
+          "Shared Read Blocks": 3282,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Sort",
+              "Parent Relationship": "Outer",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Startup Cost": 16766.42,
+              "Total Cost": 16766.64,
+              "Plan Rows": 88,
+              "Plan Width": 91,
+              "Actual Startup Time": 149.291,
+              "Actual Total Time": 149.294,
+              "Actual Rows": 49.00,
+              "Actual Loops": 1,
+              "Disabled": false,
+              "Sort Key": [
+                "osd.seller_state",
+                "osd.seller_city"
+              ],
+              "Sort Method": "quicksort",
+              "Sort Space Used": 28,
+              "Sort Space Type": "Memory",
+              "Shared Hit Blocks": 1358,
+              "Shared Read Blocks": 3282,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Plans": [
+                {
+                  "Node Type": "Hash Join",
+                  "Parent Relationship": "Outer",
+                  "Parallel Aware": false,
+                  "Async Capable": false,
+                  "Join Type": "Inner",
+                  "Startup Cost": 15288.31,
+                  "Total Cost": 16763.57,
+                  "Plan Rows": 88,
+                  "Plan Width": 91,
+                  "Actual Startup Time": 130.209,
+                  "Actual Total Time": 149.264,
+                  "Actual Rows": 49.00,
+                  "Actual Loops": 1,
+                  "Disabled": false,
+                  "Inner Unique": true,
+                  "Hash Cond": "((olist_order_items_dataset.seller_id)::text = (osd.seller_id)::text)",
+                  "Shared Hit Blocks": 1358,
+                  "Shared Read Blocks": 3282,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Dirtied Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Plans": [
+                    {
+                      "Node Type": "Aggregate",
+                      "Strategy": "Sorted",
+                      "Partial Mode": "Simple",
+                      "Parent Relationship": "Outer",
+                      "Parallel Aware": false,
+                      "Async Capable": false,
+                      "Startup Cost": 15176.67,
+                      "Total Cost": 16650.83,
+                      "Plan Rows": 88,
+                      "Plan Width": 77,
+                      "Actual Startup Time": 129.806,
+                      "Actual Total Time": 148.831,
+                      "Actual Rows": 49.00,
+                      "Actual Loops": 1,
+                      "Disabled": false,
+                      "Group Key": [
+                        "olist_order_items_dataset.seller_id"
+                      ],
+                      "Filter": "((sum(olist_order_items_dataset.price) > '30000'::double precision) AND (count(DISTINCT olist_order_items_dataset.order_id) > 100) AND (((stddev(olist_order_items_dataset.price) / avg(olist_order_items_dataset.price)) * '100'::double precision) > '50'::double precision))",
+                      "Rows Removed by Filter": 3046,
+                      "Shared Hit Blocks": 1316,
+                      "Shared Read Blocks": 3282,
+                      "Shared Dirtied Blocks": 0,
+                      "Shared Written Blocks": 0,
+                      "Local Hit Blocks": 0,
+                      "Local Read Blocks": 0,
+                      "Local Dirtied Blocks": 0,
+                      "Local Written Blocks": 0,
+                      "Temp Read Blocks": 0,
+                      "Temp Written Blocks": 0,
+                      "Plans": [
+                        {
+                          "Node Type": "Sort",
+                          "Parent Relationship": "Outer",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Startup Cost": 15176.67,
+                          "Total Cost": 15458.30,
+                          "Plan Rows": 112650,
+                          "Plan Width": 70,
+                          "Actual Startup Time": 129.523,
+                          "Actual Total Time": 137.939,
+                          "Actual Rows": 112650.00,
+                          "Actual Loops": 1,
+                          "Disabled": false,
+                          "Sort Key": [
+                            "olist_order_items_dataset.seller_id",
+                            "olist_order_items_dataset.order_id"
+                          ],
+                          "Sort Method": "quicksort",
+                          "Sort Space Used": 13633,
+                          "Sort Space Type": "Memory",
+                          "Shared Hit Blocks": 1316,
+                          "Shared Read Blocks": 3282,
+                          "Shared Dirtied Blocks": 0,
+                          "Shared Written Blocks": 0,
+                          "Local Hit Blocks": 0,
+                          "Local Read Blocks": 0,
+                          "Local Dirtied Blocks": 0,
+                          "Local Written Blocks": 0,
+                          "Temp Read Blocks": 0,
+                          "Temp Written Blocks": 0,
+                          "Plans": [
+                            {
+                              "Node Type": "Seq Scan",
+                              "Parent Relationship": "Outer",
+                              "Parallel Aware": false,
+                              "Async Capable": false,
+                              "Relation Name": "olist_order_items_dataset",
+                              "Alias": "olist_order_items_dataset",
+                              "Startup Cost": 0.00,
+                              "Total Cost": 5724.50,
+                              "Plan Rows": 112650,
+                              "Plan Width": 70,
+                              "Actual Startup Time": 2.819,
+                              "Actual Total Time": 10.330,
+                              "Actual Rows": 112650.00,
+                              "Actual Loops": 1,
+                              "Disabled": false,
+                              "Shared Hit Blocks": 1316,
+                              "Shared Read Blocks": 3282,
+                              "Shared Dirtied Blocks": 0,
+                              "Shared Written Blocks": 0,
+                              "Local Hit Blocks": 0,
+                              "Local Read Blocks": 0,
+                              "Local Dirtied Blocks": 0,
+                              "Local Written Blocks": 0,
+                              "Temp Read Blocks": 0,
+                              "Temp Written Blocks": 0
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "Node Type": "Hash",
+                      "Parent Relationship": "Inner",
+                      "Parallel Aware": false,
+                      "Async Capable": false,
+                      "Startup Cost": 72.95,
+                      "Total Cost": 72.95,
+                      "Plan Rows": 3095,
+                      "Plan Width": 47,
+                      "Actual Startup Time": 0.397,
+                      "Actual Total Time": 0.398,
+                      "Actual Rows": 3095.00,
+                      "Actual Loops": 1,
+                      "Disabled": false,
+                      "Hash Buckets": 4096,
+                      "Original Hash Buckets": 4096,
+                      "Hash Batches": 1,
+                      "Original Hash Batches": 1,
+                      "Peak Memory Usage": 266,
+                      "Shared Hit Blocks": 42,
+                      "Shared Read Blocks": 0,
+                      "Shared Dirtied Blocks": 0,
+                      "Shared Written Blocks": 0,
+                      "Local Hit Blocks": 0,
+                      "Local Read Blocks": 0,
+                      "Local Dirtied Blocks": 0,
+                      "Local Written Blocks": 0,
+                      "Temp Read Blocks": 0,
+                      "Temp Written Blocks": 0,
+                      "Plans": [
+                        {
+                          "Node Type": "Seq Scan",
+                          "Parent Relationship": "Outer",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Relation Name": "olist_sellers_dataset",
+                          "Alias": "osd",
+                          "Startup Cost": 0.00,
+                          "Total Cost": 72.95,
+                          "Plan Rows": 3095,
+                          "Plan Width": 47,
+                          "Actual Startup Time": 0.010,
+                          "Actual Total Time": 0.159,
+                          "Actual Rows": 3095.00,
+                          "Actual Loops": 1,
+                          "Disabled": false,
+                          "Shared Hit Blocks": 42,
+                          "Shared Read Blocks": 0,
+                          "Shared Dirtied Blocks": 0,
+                          "Shared Written Blocks": 0,
+                          "Local Hit Blocks": 0,
+                          "Local Read Blocks": 0,
+                          "Local Dirtied Blocks": 0,
+                          "Local Written Blocks": 0,
+                          "Temp Read Blocks": 0,
+                          "Temp Written Blocks": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Planning": {
+      "Shared Hit Blocks": 0,
+      "Shared Read Blocks": 0,
+      "Shared Dirtied Blocks": 0,
+      "Shared Written Blocks": 0,
+      "Local Hit Blocks": 0,
+      "Local Read Blocks": 0,
+      "Local Dirtied Blocks": 0,
+      "Local Written Blocks": 0,
+      "Temp Read Blocks": 0,
+      "Temp Written Blocks": 0
+    },
+    "Planning Time": 0.177,
+    "Triggers": [
+    ],
+    "Execution Time": 149.419
+  }
+]
