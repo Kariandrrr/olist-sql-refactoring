@@ -1,6 +1,6 @@
 /*
 ============================================================================
-		Multi-Dimensional Payment & Category Analysis
+		Multi-dimensional payment & category analysis
 
 OPTIMIZATIONS APPLIED:
 1. Session memory: raised work_mem to 64MB to ensure in-memory sorting and aggregation
