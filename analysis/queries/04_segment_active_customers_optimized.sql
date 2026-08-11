@@ -1,5 +1,5 @@
 WITH customer_metrics AS (SELECT ocd.customer_unique_id,
-                                 ocd.customer_id,
+                                 MIN(ocd.customer_id)         AS customer_id,
                                  COUNT(DISTINCT ood.order_id) AS total_orders_count,
                                  COALESCE(SUM(ooid.price), 0) AS lifetime_value
                           FROM olist_customers_dataset ocd
@@ -7,7 +7,7 @@ WITH customer_metrics AS (SELECT ocd.customer_unique_id,
                                         ON ocd.customer_id = ood.customer_id
                                    LEFT JOIN olist_order_items_dataset ooid
                                              ON ood.order_id = ooid.order_id
-                          GROUP BY ocd.customer_unique_id, ocd.customer_id
+                          GROUP BY ocd.customer_unique_id
                           HAVING COUNT(DISTINCT ood.order_id) > 1),
 
      latest_order AS (SELECT customer_unique_id,
@@ -22,7 +22,7 @@ WITH customer_metrics AS (SELECT ocd.customer_unique_id,
 
 
                                    FIRST_VALUE(opd.product_category_name) OVER (
-                                       PARTITION BY cm.customer_unique_id
+                                       PARTITION BY ood.order_id
                                        ORDER BY ooid.price DESC
                                        )                                            AS top_category,
                                    ROW_NUMBER() OVER (
