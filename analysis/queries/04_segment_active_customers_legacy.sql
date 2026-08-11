@@ -68,26 +68,21 @@ FROM customer_metrics cm
                                ON ooid_inner.product_id = opd.product_id
             WHERE ooid_inner.order_id = ood_sub.order_id
             ORDER BY ooid_inner.price DESC
-                                  LIMIT 1
-        ) AS top_category FROM
-        olist_customers_dataset ocd_sub
-JOIN olist_orders_dataset ood_sub
-ON
-    ocd_sub.customer_id = ood_sub.customer_id
-    LEFT JOIN olist_order_items_dataset ooid_sub
-    ON
-    ood_sub.order_id = ooid_sub.order_id
-WHERE
-    ocd_sub.customer_unique_id = cm.customer_unique_id
-  AND ood_sub.order_status = 'delivered'
-GROUP BY
-    ood_sub.order_id,
-    ood_sub.order_purchase_timestamp
-ORDER BY
-    ood_sub.order_purchase_timestamp DESC
+            LIMIT 1)           AS top_category
+    FROM olist_customers_dataset ocd_sub
+             JOIN olist_orders_dataset ood_sub
+                  ON
+                      ocd_sub.customer_id = ood_sub.customer_id
+             LEFT JOIN olist_order_items_dataset ooid_sub
+                       ON
+                           ood_sub.order_id = ooid_sub.order_id
+    WHERE ocd_sub.customer_unique_id = cm.customer_unique_id
+      AND ood_sub.order_status = 'delivered'
+    GROUP BY ood_sub.order_id,
+             ood_sub.order_purchase_timestamp
+    ORDER BY ood_sub.order_purchase_timestamp DESC
     LIMIT 1
     ) latest_order
-ON
-    TRUE
-ORDER BY
-    lifetime_value DESC;
+                   ON
+                       TRUE
+ORDER BY lifetime_value DESC;
