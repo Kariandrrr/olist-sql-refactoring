@@ -33,8 +33,8 @@ SELECT osd.seller_city,
        osd.seller_state,
        SUM(ooid.price)                                                       AS total,
        COUNT(DISTINCT ooid.order_id)                                         AS uq_orders_count,
-       round((SUM(ooid.price) / COUNT(DISTINCT ooid.order_id)):: NUMERIC, 2) AS avg_order_value,
-       round(stddev(ooid.price)::NUMERIC, 2)                                 AS price_sttdev
+       ROUND((SUM(ooid.price) / COUNT(DISTINCT ooid.order_id)):: NUMERIC, 2) AS avg_order_value,
+       ROUND(STDDEV(ooid.price)::NUMERIC, 2)                                 AS price_sttdev
 FROM olist_sellers_dataset osd
          JOIN olist_order_items_dataset ooid
               ON
@@ -42,8 +42,8 @@ FROM olist_sellers_dataset osd
 GROUP BY
     ROLLUP (osd.seller_state, osd.seller_city)
 HAVING SUM(ooid.price) > 50000
-ORDER BY osd.seller_state ASC NULLS FIRST,
-         osd.seller_city ASC NULLS FIRST,
+ORDER BY osd.seller_state NULLS FIRST,
+         osd.seller_city NULLS FIRST,
          total DESC;
  
  

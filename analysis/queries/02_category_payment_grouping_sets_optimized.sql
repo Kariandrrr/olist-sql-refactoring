@@ -40,7 +40,6 @@ SELECT product_category_name,
        CASE
            WHEN GROUPING(product_category_name) = 0 AND GROUPING(payment_type) = 0
                THEN ROUND(PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY payment_value)::NUMERIC, 2)
-           ELSE NULL
            END                         AS median_payment,
 
        GROUPING(product_category_name) AS grouping_category,
