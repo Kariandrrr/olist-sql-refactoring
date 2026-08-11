@@ -38,3 +38,22 @@ WITH customer_metrics AS (SELECT ocd.customer_unique_id,
                                                ON opd.product_id = ooid.product_id
                             WHERE ood.order_status = 'delivered') ranked
                       WHERE ranked.rn = 1)
+
+SELECT cm.customer_unique_id,
+       cm.total_orders_count,
+       ROUND(cm.lifetime_value::NUMERIC, 2)            AS lifetime_value,
+
+       CASE
+           WHEN cm.lifetime_value > 500 THEN 'VIP'
+           WHEN cm.lifetime_value >= 200 THEN 'High Value'
+           ELSE 'Standard'
+           END                                         AS customer_segment,
+
+       lo.order_id                                     AS latest_order_id,
+       lo.order_purchase_timestamp                     AS latest_order_date,
+       ROUND(COALESCE(lo.order_amount, 0)::NUMERIC, 2) AS latest_order_amount,
+       COALESCE(lo.top_category, 'Uncategorized')      AS latest_order_top_category
+FROM customer_metrics cm
+         LEFT JOIN latest_order lo
+                   ON cm.customer_unique_id = lo.customer_unique_id
+ORDER BY lifetime_value DESC;
