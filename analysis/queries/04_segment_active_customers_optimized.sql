@@ -1,3 +1,19 @@
+/*
+============================================================================
+		Customer lifetime value & latest order analysis
+
+OPTIMIZATIONS APPLIED:
+1. Early filtering CTE: created customer_metrics to filter customers with >1 order
+   before main processing, reducing input from 99k to 3k customers (-97% rows)
+2. Replaced correlated LATERAL: removed per-customer subquery execution (2997 loops)
+   with window functions (ROW_NUMBER, FIRST_VALUE) in single pass
+3. Optimized JOIN strategy: added customer_id to first CTE to avoid redundant
+   joins with customers table in second CTE
+4. Window function aggregation: used ROW_NUMBER() for latest order + FIRST_VALUE()
+   for top category instead of nested ORDER BY ... LIMIT 1 subqueries
+============================================================================
+*/
+
 WITH customer_metrics AS (SELECT ocd.customer_unique_id,
                                  MIN(ocd.customer_id)         AS customer_id,
                                  COUNT(DISTINCT ood.order_id) AS total_orders_count,
